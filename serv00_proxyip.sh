@@ -159,6 +159,7 @@ argo_configure() {
   while true; do
     yellow "Argo临时隧道 (无需域名，推荐)"
     yellow "Argo固定隧道 (需要域名，需要CF设置提取Token)"
+    echo -e "${red}注意：${purple}Argo固定隧道使用token时，需要在cloudflare后台设置隧道端口，该端口必须与vmess+ws的tcp端口一致)${re}"
     reading "输入 g 表示使用Argo固定隧道 ；回车跳过 表示使用Argo临时隧道 【g/回车】: " argo_choice
     if [[ "$argo_choice" != "g" && "$argo_choice" != "G" && -n "$argo_choice" ]]; then
         red "无效的选择，请输入 g 或回车"
@@ -169,7 +170,6 @@ argo_configure() {
         green "你的argo固定隧道域名为: $ARGO_DOMAIN"
         reading "请输入argo固定隧道密钥（Json或Token）: " ARGO_AUTH
         green "你的argo固定隧道密钥为: $ARGO_AUTH"
-        echo -e "${red}注意：${purple}使用token，需要在cloudflare后台设置隧道端口和vmess+ws的tcp端口一致${re}"
     else
         green "使用Argo临时隧道"
     fi
@@ -553,20 +553,20 @@ $vl_link
 方式一全局应用：设置变量名：proxyip    设置变量值：$IP:$vless_port  
 方式二单节点应用：path路径改为：/pyip=$IP:$vless_port
 CF节点的TLS可开可关
-用于CF节点落地到CF网站的地区为$IP所在地区
+CF节点落地到CF网站的地区为：$IP所在地区
 
 2、非标端口反代IP信息如下：
 客户端优选IP地址为：$IP，端口：$vless_port
 CF节点的TLS必须开启
-用于CF节点落地到非CF网站的地区为$IP所在地区
+CF节点落地到非CF网站的地区为：$IP所在地区
 
-注：如果serv00的IP被墙，proxyip依旧有效，但用于客户端的优选IP将不可用！
+注：如果serv00的IP被墙，proxyip依旧有效，但用于客户端地址与端口的非标端口反代IP将不可用！
 注：可能有大佬会扫Serv00的反代IP作为其共享IP库或者出售，请慎重将reality域名设置为CF域名
 -------------------------------------------------------------------------------------------------
 
 
 二、Vmess-ws分享链接三形态如下：
-1、Vmess-ws分享链接如下：
+1、Vmess-ws主节点分享链接如下：
 $vmws_link
 
 2、Vmess-ws-tls_Argo分享链接如下 (客户端地址可自行修改优选IP，6个443系端口随便更换，该节点被墙也能用！)：
@@ -1079,13 +1079,13 @@ fi
 
 showsbclash(){
 if [[ -e $WORKDIR/sing_box.json ]]; then
-green "Sing_box配置文件如下："
+green "Sing_box配置文件如下，可上传到订阅类客户端上使用："
 yellow "Argo节点的地址可自行修改优选IP"
 sleep 2
 cat $WORKDIR/sing_box.json 
 echo
 echo
-green "Clash_meta配置文件如下："
+green "Clash_meta配置文件如下，可上传到订阅类客户端上使用："
 yellow "Argo节点的地址可自行修改优选IP"
 sleep 2
 cat $WORKDIR/clash_meta.yaml
@@ -1106,7 +1106,6 @@ menu() {
    green "甬哥Blogger博客 ：ygkkk.blogspot.com"
    green "甬哥YouTube频道 ：www.youtube.com/@ygkkk"
    echo "======================================================"
-   echo 
    green  "1. 安装sing-box"
    echo   "------------------------------------------------------"
    red    "2. 卸载sing-box"
@@ -1136,7 +1135,7 @@ echo "$response" | while IFS='|' read -r ip status; do
 if [[ $status == "Accessible" ]]; then
 echo "$ip: 可用"  >> $WORKDIR/ip.txt
 else
-echo "$ip: 被墙 (Argo节点与proxyip依旧可用)"  >> $WORKDIR/ip.txt
+echo "$ip: 被墙 (Argo节点与proxyip依旧有效)"  >> $WORKDIR/ip.txt
 fi	
 done
 fi
