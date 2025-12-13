@@ -1,4 +1,4 @@
-# Cloudflare Socks5/Http本地脚本
+# Cloudflare Socks5/Http本地代理脚本
 ### 支持基于Workers域名、Pages域名、自定义域名
 ### 可选 ECH-TLS、普通TLS、无TLS 三种代理模式，应对各种阻断封杀
 
@@ -9,7 +9,6 @@ curl -sSL https://raw.githubusercontent.com/yonggekkk/Cloudflare_vless_trojan/ma
 ```
 
 ------------------------------------------------------------
-
 
 # Cloudflare-workers/pages代理脚本【目前版本：25.5.4】
 ### 1、本项目仅支持本地化部署
