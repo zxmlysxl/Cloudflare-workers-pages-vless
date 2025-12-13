@@ -49,18 +49,25 @@ if [ ! -s "$HOME/cfs5http/cfwp" ]; then
 curl -L -o "$HOME/cfs5http/cfwp" -# --retry 2 --insecure https://raw.githubusercontent.com/yonggekkk/Cloudflare-vless-trojan/main/s5http_wkpgs/linux-$cpu
 chmod +x "$HOME/cfs5http/cfwp"
 fi
-read -p "客户端本地端口设置（回车跳过为30000）:" menu
+echo
+read -p "1、客户端本地端口设置（回车跳过为30000）:" menu
 port="${menu:-30000}"
-read -p "CF workers/pages/自定义的域名设置（格式为：域名:443系端口或者80系端口）:" menu
+echo
+read -p "2、CF workers/pages/自定义的域名设置（格式为：域名:443系端口或者80系端口）:" menu
 cf_domain="$menu"
-read -p "客户端地址优选IP/域名（回车跳过为yg1.ygkkk.dpdns.org）:" menu
+echo
+read -p "3、客户端地址优选IP/域名（回车跳过为yg1.ygkkk.dpdns.org）:" menu
 cf_cdnip="${menu:-yg1.ygkkk.dpdns.org}"
-read -p "密钥设置（回车跳过为不设密钥）:" menu
+echo
+read -p "4、密钥设置（回车跳过为不设密钥）:" menu
 token="${menu:-}"
-read -p "DoH服务器设置（回车跳过为dns.alidns.com/dns-query）:" menu
+echo
+read -p "5、DoH服务器设置（回车跳过为dns.alidns.com/dns-query）:" menu
 dns="${menu:-dns.alidns.com/dns-query}"
-read -p "ECH开关（回车跳过或者输入y为开启ECH，输入n表示关闭ECH）:" menu
+echo
+read -p "6、ECH开关（回车跳过或者输入y为开启ECH，输入n表示关闭ECH）:" menu
 enable_ech=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
+echo
 cat > "$HOME/cfs5http/cf_$port.sh" << EOF
 #!/bin/bash
 nohup $HOME/cfs5http/cfwp client_ip=:"$port" dns="$dns" cf_domain="$cf_domain" cf_cdnip="$cf_cdnip" token="$token" enable_ech="$enable_ech" > "$HOME/cfs5http/$port.log" 2>&1 &
