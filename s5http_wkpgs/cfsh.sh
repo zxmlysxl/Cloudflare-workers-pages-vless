@@ -26,11 +26,11 @@ echo "未安装任何节点"
 fi
 }
 echo "================================================================"
-echo "甬哥Github项目 ：github.com/yonggekkk")
-echo "甬哥Blogger博客 ：ygkkk.blogspot.com")
-echo "甬哥YouTube频道 ：www.youtube.com/@ygkkk")
+echo "甬哥Github项目 ：github.com/yonggekkk"
+echo "甬哥Blogger博客 ：ygkkk.blogspot.com"
+echo "甬哥YouTube频道 ：www.youtube.com/@ygkkk"
 echo "================================================================"
-echo "支持 Workers域名、Pages域名、自定义域名")
+echo "支持 Workers域名、Pages域名、自定义域名"
 echo "可选 ECH-TLS、普通TLS、无TLS 三种代理模式，应对各种阻断封杀"
 echo "脚本快捷方式：bash cfsh.sh"
 echo "================================================================"
