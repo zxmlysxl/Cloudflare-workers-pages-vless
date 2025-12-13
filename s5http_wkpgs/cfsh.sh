@@ -69,6 +69,7 @@ chmod +x "$HOME/cfs5http/cf_$port.sh"
 bash "$HOME/cfs5http/cf_$port.sh"
 echo "安装完毕，Socks5/Http节点已在运行中，查看运行日志请选择3" && sleep 5
 sed -n '1,16p' "$HOME/cfs5http/$port.log" | grep '服务端域名与端口\|客户端地址与端口\|运行中的优选IP'
+until grep -q '服务端域名与端口\|客户端地址与端口\|运行中的优选IP' "$HOME/cfs5http/$port.log"; do sleep 1; done; head -n 16 "$HOME/cfs5http/$port.log" | grep '服务端域名与端口\|客户端地址与端口\|运行中的优选IP'
 echo
 elif [ "$menu" = "3" ]; then
 showmenu
