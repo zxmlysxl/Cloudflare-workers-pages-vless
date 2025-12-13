@@ -88,7 +88,7 @@ read -p "选择要查看的端口节点配置信息及日志（输入端口即�
 { echo "$port端口节点配置信息及日志如下：" ; echo "------------------------------------"; sed -n '1,16p' "$HOME/cfs5http/$port.log" | grep '服务端域名与端口\|客户端地址与端口\|运行中的优选IP' ; echo "------------------------------------" ; sed '1,16d' "$HOME/cfs5http/$port.log" | tail -n 10; }
 elif [ "$menu" = "4" ]; then
 ps | grep '[c]fwp' | awk '{print $1}' | xargs kill -9
-rm -rf "$HOME/cfs5http"
+rm -rf "$HOME/cfs5http" cfsh.sh
 echo "卸载完成"
 else
 exit
