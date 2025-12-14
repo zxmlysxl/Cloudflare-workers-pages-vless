@@ -90,9 +90,9 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 EOF
-systemctl daemon-reload
-systemctl start "cf_$port.service"
-systemctl enable "cf_$port.service"
+systemctl daemon-reload >/dev/null 2>&1
+systemctl start "cf_$port.service" >/dev/null 2>&1
+systemctl enable "cf_$port.service" >/dev/null 2>&1
 elif [ "$INIT_SYSTEM" = "procd" ]; then
 RCLOCAL="/etc/rc.local"
 [ ! -f "$RCLOCAL" ] && touch "$RCLOCAL"
@@ -114,13 +114,26 @@ echo
 read -p "选择要删除的端口节点（输入端口即可）:" port
 pid=$(lsof -t -i :$port)
 if [ -n "$pid" ]; then
-kill -9 $pid
+systemctl stop "cf_$port.service" >/dev/null 2>&1
+systemctl disable "cf_$port.service" >/dev/null 2>&1
+rm -rf "/etc/systemd/system/cf_$port.service"
+kill -9 $pid >/dev/null 2>&1
 echo "端口 $port 的进程已被终止"
 else
 echo "端口 $port 没有占用进程"
 fi
 rm -rf "$HOME/cfs5http/$port.log" "$HOME/cfs5http/cf_$port.sh"
 elif [ "$menu" = "4" ]; then
+showmenu
+if [ -n "$files" ]; then
+while IFS= read -r port; do
+echo "$port"
+systemctl stop "cf_$port.service" >/dev/null 2>&1
+systemctl disable "cf_$port.service" >/dev/null 2>&1
+rm -f "/etc/systemd/system/cf_$port.service"
+done <<< "$files"
+systemctl daemon-reload
+fi
 ps | grep '[c]fwp' | awk '{print $1}' | xargs kill -9
 rm -rf "$HOME/cfs5http" cfsh.sh
 echo "卸载完成"
