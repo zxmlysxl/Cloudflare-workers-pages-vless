@@ -70,7 +70,7 @@ read -p "6、ECH开关（回车跳过或者输入y表示开启ECH，输入n表�
 enable_ech=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
 echo
 read -p "7、分流开关（回车跳过或者输入y表示国内外分流代理，输入n表示全局代理）:" menu
-enable_ech=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
+cnrule=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
 echo
 SCRIPT="$HOME/cfs5http/cf_$port.sh"
 cat > "$SCRIPT" << EOF
