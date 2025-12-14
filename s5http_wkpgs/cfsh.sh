@@ -66,20 +66,27 @@ echo
 read -p "5、DoH服务器设置（回车跳过为dns.alidns.com/dns-query）:" menu
 dns="${menu:-dns.alidns.com/dns-query}"
 echo
-read -p "6、ECH开关（回车跳过或者输入y为开启ECH，输入n表示关闭ECH）:" menu
+read -p "6、ECH开关（回车跳过或者输入y表示开启ECH，输入n表示关闭ECH）:" menu
+enable_ech=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
+echo
+read -p "7、分流开关（回车跳过或者输入y表示国内外分流代理，输入n表示全局代理）:" menu
 enable_ech=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
 echo
 cat > "$HOME/cfs5http/cf_$port.sh" << EOF
 #!/bin/bash
-nohup $HOME/cfs5http/cfwp client_ip=:"$port" dns="$dns" cf_domain="$cf_domain" cf_cdnip="$cf_cdnip" token="$token" enable_ech="$enable_ech" > "$HOME/cfs5http/$port.log" 2>&1 &
+nohup $HOME/cfs5http/cfwp client_ip=:"$port" dns="$dns" cf_domain="$cf_domain" cf_cdnip="$cf_cdnip" token="$token" enable_ech="$enable_ech" cnrule=%cnrule% > "$HOME/cfs5http/$port.log" 2>&1 &
 EOF
 chmod +x "$HOME/cfs5http/cf_$port.sh"
 bash "$HOME/cfs5http/cf_$port.sh"
-echo "可添加自启路径：@reboot /$HOME/cfs5http/cf_$port.sh"
 echo "安装完毕，Socks5/Http节点已在运行中，可进入菜单选择2，查看节点配置信息及日志" && sleep 5
 echo
 until grep -q '服务端域名与端口\|客户端地址与端口\|运行中的优选IP' "$HOME/cfs5http/$port.log"; do sleep 1; done; head -n 16 "$HOME/cfs5http/$port.log" | grep '服务端域名与端口\|客户端地址与端口\|运行中的优选IP'
 echo
+elif [ "$menu" = "2" ]; then
+showmenu
+echo
+read -p "选择要查看的端口节点配置信息及日志（输入端口即可）:" port
+{ echo "$port端口节点配置信息及日志如下：" ; echo "------------------------------------"; sed -n '1,16p' "$HOME/cfs5http/$port.log" | grep '服务端域名与端口\|客户端地址与端口\|运行中的优选IP' ; echo "------------------------------------" ; sed '1,16d' "$HOME/cfs5http/$port.log" | tail -n 10; }
 elif [ "$menu" = "3" ]; then
 showmenu
 echo
@@ -92,11 +99,6 @@ else
 echo "端口 $port 没有占用进程"
 fi
 rm -rf "$HOME/cfs5http/$port.log" "$HOME/cfs5http/cf_$port.sh"
-elif [ "$menu" = "2" ]; then
-showmenu
-echo
-read -p "选择要查看的端口节点配置信息及日志（输入端口即可）:" port
-{ echo "$port端口节点配置信息及日志如下：" ; echo "------------------------------------"; sed -n '1,16p' "$HOME/cfs5http/$port.log" | grep '服务端域名与端口\|客户端地址与端口\|运行中的优选IP' ; echo "------------------------------------" ; sed '1,16d' "$HOME/cfs5http/$port.log" | tail -n 10; }
 elif [ "$menu" = "4" ]; then
 ps | grep '[c]fwp' | awk '{print $1}' | xargs kill -9
 rm -rf "$HOME/cfs5http" cfsh.sh
