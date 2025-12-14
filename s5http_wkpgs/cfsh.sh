@@ -77,6 +77,27 @@ cat > "$HOME/cfs5http/cf_$port.sh" << EOF
 nohup $HOME/cfs5http/cfwp client_ip=:"$port" dns="$dns" cf_domain="$cf_domain" cf_cdnip="$cf_cdnip" token="$token" enable_ech="$enable_ech" cnrule=%cnrule% > "$HOME/cfs5http/$port.log" 2>&1 &
 EOF
 chmod +x "$HOME/cfs5http/cf_$port.sh"
+SCRIPT="$HOME/cfs5http/cf_$port.sh"
+INIT_SYSTEM=$(cat /proc/1/comm)
+if [ "$INIT_SYSTEM" = "systemd" ]; then
+cat > "/etc/systemd/system/cf_$port.service" << EOF
+[Unit]
+Description=CF $port Service
+After=network.target
+[Service]
+ExecStart=/bin/bash $SCRIPT
+Restart=always
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl start "cf_$port.service"
+systemctl enable "cf_$port.service"
+elif [ "$INIT_SYSTEM" = "procd" ]; then
+RCLOCAL="/etc/rc.local"
+[ ! -f "$RCLOCAL" ] && touch "$RCLOCAL"
+sed -i "/^exit 0/i \/bin\/bash $SCRIPT" "$RCLOCAL"
+fi
 bash "$HOME/cfs5http/cf_$port.sh"
 echo "安装完毕，Socks5/Http节点已在运行中，可进入菜单选择2，查看节点配置信息及日志" && sleep 5
 echo
