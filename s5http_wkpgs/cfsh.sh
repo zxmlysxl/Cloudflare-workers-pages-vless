@@ -82,6 +82,7 @@ until grep -q '服务端域名与端口\|客户端地址与端口\|运行中的�
 echo
 elif [ "$menu" = "3" ]; then
 showmenu
+echo
 read -p "选择要删除的端口节点（输入端口即可）:" port
 pid=$(lsof -t -i :$port)
 if [ -n "$pid" ]; then
@@ -93,6 +94,7 @@ fi
 rm -rf "$HOME/cfs5http/$port.log" "$HOME/cfs5http/cf_$port.sh"
 elif [ "$menu" = "2" ]; then
 showmenu
+echo
 read -p "选择要查看的端口节点配置信息及日志（输入端口即可）:" port
 { echo "$port端口节点配置信息及日志如下：" ; echo "------------------------------------"; sed -n '1,16p' "$HOME/cfs5http/$port.log" | grep '服务端域名与端口\|客户端地址与端口\|运行中的优选IP' ; echo "------------------------------------" ; sed '1,16d' "$HOME/cfs5http/$port.log" | tail -n 10; }
 elif [ "$menu" = "4" ]; then
