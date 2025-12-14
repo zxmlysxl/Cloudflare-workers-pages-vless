@@ -75,7 +75,7 @@ echo
 SCRIPT="$HOME/cfs5http/cf_$port.sh"
 cat > "$SCRIPT" << EOF
 #!/bin/bash
-nohup $HOME/cfs5http/cfwp client_ip=:"$port" dns="$dns" cf_domain="$cf_domain" cf_cdnip="$cf_cdnip" token="$token" enable_ech="$enable_ech" cnrule=%cnrule% > "$HOME/cfs5http/$port.log" 2>&1 &
+nohup $HOME/cfs5http/cfwp client_ip=:"$port" dns="$dns" cf_domain="$cf_domain" cf_cdnip="$cf_cdnip" token="$token" enable_ech="$enable_ech" cnrule="$cnrule" > "$HOME/cfs5http/$port.log" 2>&1 &
 EOF
 chmod +x "$SCRIPT"
 INIT_SYSTEM=$(cat /proc/1/comm)
