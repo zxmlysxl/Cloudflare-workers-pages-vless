@@ -14,8 +14,15 @@ echo "当前架构为 $arch，暂不支持" && exit
 ;;
 esac
 INIT_SYSTEM=$(cat /proc/1/comm)
+showports(){
+if [ "$INIT_SYSTEM" = "systemd" ]; then
+ports=$(ps aux | grep "$HOME/cfs5http/cfwp" 2>/dev/null | grep -v grep | sed -n 's/.*client_ip=:\([0-9]\+\).*/\1/p')
+else
+ports=$(ps w | grep "$HOME/cfs5http/cfwp" 2>/dev/null | grep -v grep | sed -n 's/.*client_ip=:\([0-9]\+\).*/\1/p')
+fi
+}
 showmenu(){
-ports=$(ps | grep "$HOME/cfs5http/cfwp" | grep -v grep | sed -n 's/.*client_ip=:\([0-9]\+\).*/\1/p')
+showports
 if [ -n "$ports" ]; then
 echo "已安装节点端口："
 echo "$ports" | while IFS= read -r port; do
@@ -154,7 +161,6 @@ echo "端口 $port 没有占用进程"
 fi
 rm -rf "$HOME/cfs5http/$port.log" "$HOME/cfs5http/cf_$port.sh"
 elif [ "$menu" = "4" ]; then
-ports=$(ps | grep "$HOME/cfs5http/cfwp" | grep -v grep | sed -n 's/.*client_ip=:\([0-9]\+\).*/\1/p')
 showmenu
 echo
 read -p "确认卸载所有节点？(y/n): " menu
