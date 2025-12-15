@@ -92,7 +92,7 @@ SCRIPT="$HOME/cfs5http/cf_$port.sh"
 LOG="$HOME/cfs5http/$port.log"
 cat > "$SCRIPT" << EOF
 #!/bin/bash
-INIT_SYSTEM=\$(cat /proc/1/comm)
+[ -f /proc/1/comm ] && INIT_SYSTEM=\$(cat /proc/1/comm)
 CMD="$HOME/cfs5http/cfwp \
 client_ip=:$port \
 dns=$dns \
