@@ -76,7 +76,7 @@ echo
 read -p "3、客户端地址优选IP/域名（回车默认：yg1.ygkkk.dpdns.org）:" menu
 cf_cdnip="${menu:-yg1.ygkkk.dpdns.org}"
 echo
-read -p "4、密钥设置（回车默认不设密钥）:" menu
+read -p "4、密钥设置（回车默认：不设密钥）:" menu
 token="${menu:-}"
 echo
 read -p "5、DoH服务器设置（回车默认：dns.alidns.com/dns-query）:" menu
@@ -85,7 +85,7 @@ echo
 read -p "6、ECH开关（y=开启, n=关闭, 回车跳过: 开启）:" menu
 enable_ech=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
 echo
-read -p "7、分流开关（y=国内外分流代理, n=全局代理, 回车默认:国内外分流代理）:" menu
+read -p "7、分流开关（y=国内外分流代理, n=全局代理, 回车默认: 国内外分流代理）:" menu
 cnrule=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
 echo
 SCRIPT="$HOME/cfs5http/cf_$port.sh"
