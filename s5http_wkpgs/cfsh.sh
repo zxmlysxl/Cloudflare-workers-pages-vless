@@ -110,8 +110,7 @@ systemctl start "cf_$port.service" >/dev/null 2>&1
 systemctl enable "cf_$port.service" >/dev/null 2>&1
 elif [ "$INIT_SYSTEM" = "procd" ]; then
 RCLOCAL="/etc/rc.local"
-[ ! -f "$RCLOCAL" ] && touch "$RCLOCAL"
-grep -q "$SCRIPT" "$RCLOCAL" || sed -i "/^exit 0/i /bin/bash $SCRIPT" "$RCLOCAL"
+[ ! -f "$RCLOCAL" ] && echo -e "#!/bin/sh\nexit 0" > "$RCLOCAL"; grep -q "$SCRIPT" "$RCLOCAL" || (grep -q "^exit 0" "$RCLOCAL" && sed -i "/^exit 0/i /bin/bash $SCRIPT" "$RCLOCAL" || echo "/bin/bash $SCRIPT" >> "$RCLOCAL"); tail -n1 "$RCLOCAL" | grep -q "^exit 0" || echo "exit 0" >> "$RCLOCAL"
 bash "$SCRIPT"
 else
 bash "$SCRIPT"
