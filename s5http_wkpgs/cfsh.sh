@@ -94,7 +94,7 @@ cat > "$SCRIPT" << EOF
 #!/bin/bash
 [ -f /proc/1/comm ] && INIT_SYSTEM=\$(cat /proc/1/comm)
 CMD="$HOME/cfs5http/cfwp \
-client_ip=:$port \
+client_ip=127.0.0.1:$port \
 dns=$dns \
 cf_domain=$cf_domain \
 cf_cdnip=$cf_cdnip \
