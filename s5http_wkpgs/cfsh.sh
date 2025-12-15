@@ -47,8 +47,8 @@ echo "甬哥Blogger博客 ：ygkkk.blogspot.com"
 echo "甬哥YouTube频道 ：www.youtube.com/@ygkkk"
 echo "================================================================"
 echo "Cloudflare Socks5/Http本地代理脚本"
-echo "支持 Workers域名、Pages域名、自定义域名"
-echo "可选 ECH-TLS、普通TLS、无TLS 三种代理模式，应对各种阻断封杀"
+echo "支持：Workers域名、Pages域名、自定义域名"
+echo "可选：ECH-TLS、普通TLS、无TLS 三种代理模式，应对各种阻断封杀"
 echo "脚本快捷方式：bash cfsh.sh"
 echo "================================================================"
 echo "1、增设CF-Socks5/Http节点配置"
@@ -67,25 +67,25 @@ curl -L -o "$HOME/cfs5http/cfwp" -# --retry 2 --insecure https://raw.githubuserc
 chmod +x "$HOME/cfs5http/cfwp"
 fi
 echo
-read -p "1、客户端本地端口设置（回车跳过为30000）:" menu
+read -p "1、客户端本地端口设置（回车默认：30000）:" menu
 port="${menu:-30000}"
 echo
 read -p "2、CF workers/pages/自定义的域名设置（格式为：域名:443系端口或者80系端口）:" menu
 cf_domain="$menu"
 echo
-read -p "3、客户端地址优选IP/域名（回车跳过为yg1.ygkkk.dpdns.org）:" menu
+read -p "3、客户端地址优选IP/域名（回车默认：yg1.ygkkk.dpdns.org）:" menu
 cf_cdnip="${menu:-yg1.ygkkk.dpdns.org}"
 echo
-read -p "4、密钥设置（回车跳过为不设密钥）:" menu
+read -p "4、密钥设置（回车默认不设密钥）:" menu
 token="${menu:-}"
 echo
-read -p "5、DoH服务器设置（回车跳过为dns.alidns.com/dns-query）:" menu
+read -p "5、DoH服务器设置（回车默认：dns.alidns.com/dns-query）:" menu
 dns="${menu:-dns.alidns.com/dns-query}"
 echo
-read -p "6、ECH开关（回车跳过或者输入y表示开启ECH，输入n表示关闭ECH）:" menu
+read -p "6、ECH开关（y=开启, n=关闭, 回车跳过: 开启）:" menu
 enable_ech=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
 echo
-read -p "7、分流开关（回车跳过或者输入y表示国内外分流代理，输入n表示全局代理）:" menu
+read -p "7、分流开关（y=国内外分流代理, n=全局代理, 回车默认:国内外分流代理）:" menu
 cnrule=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
 echo
 SCRIPT="$HOME/cfs5http/cf_$port.sh"
