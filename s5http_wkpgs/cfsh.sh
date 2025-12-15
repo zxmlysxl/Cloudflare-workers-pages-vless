@@ -13,7 +13,7 @@ mips|mipsle)        cpu=mipsle ;;
 echo "当前架构为 $arch，暂不支持" && exit
 ;;
 esac
-INIT_SYSTEM=$(cat /proc/1/comm)
+INIT_SYSTEM=$(cat /proc/1/comm 2>/dev/null)
 RCLOCAL="/etc/rc.local"
 showports(){
 if [ "$INIT_SYSTEM" = "systemd" ]; then
