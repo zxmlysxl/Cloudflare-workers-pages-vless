@@ -14,6 +14,7 @@ echo "当前架构为 $arch，暂不支持" && exit
 ;;
 esac
 INIT_SYSTEM=$(cat /proc/1/comm)
+RCLOCAL="/etc/rc.local"
 showports(){
 if [ "$INIT_SYSTEM" = "systemd" ]; then
 ports=$(ps aux | grep "$HOME/cfs5http/cfwp" 2>/dev/null | grep -v grep | sed -n 's/.*client_ip=:\([0-9]\+\).*/\1/p')
@@ -124,7 +125,6 @@ systemctl daemon-reload >/dev/null 2>&1
 systemctl start "cf_$port.service" >/dev/null 2>&1
 systemctl enable "cf_$port.service" >/dev/null 2>&1
 elif [ "$INIT_SYSTEM" = "procd" ]; then
-RCLOCAL="/etc/rc.local"
 [ ! -f "$RCLOCAL" ] && echo -e "#!/bin/sh\nexit 0" > "$RCLOCAL"; grep -q "$SCRIPT" "$RCLOCAL" || (grep -q "^exit 0" "$RCLOCAL" && sed -i "/^exit 0/i /bin/bash $SCRIPT" "$RCLOCAL" || echo "/bin/bash $SCRIPT" >> "$RCLOCAL"); tail -n1 "$RCLOCAL" | grep -q "^exit 0" || echo "exit 0" >> "$RCLOCAL"
 bash "$SCRIPT"
 else
@@ -152,6 +152,7 @@ showmenu
 echo
 read -p "选择要删除的端口节点（输入端口即可）:" port
 delsystem "$port"
+sed -i "\|cf_$port.sh|d" "$RCLOCAL"
 pid=$(lsof -t -i :$port)
 kill -9 $pid >/dev/null 2>&1
 rm -rf "$HOME/cfs5http/$port.log" "$HOME/cfs5http/cf_$port.sh"
@@ -166,6 +167,7 @@ return
 fi
 echo "$ports" | while IFS= read -r port; do
 delsystem "$port"
+sed -i "\|cf_$port.sh|d" "$RCLOCAL"
 done
 ps | grep '[c]fwp' | awk '{print $1}' | xargs -r kill -9
 rm -rf "$HOME/cfs5http" cfsh.sh
