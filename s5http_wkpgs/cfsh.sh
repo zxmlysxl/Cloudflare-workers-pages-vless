@@ -92,7 +92,7 @@ enable_ech=$enable_ech \
 cnrule=$cnrule"
 LOG="$HOME/cfs5http/$port.log"
 if [ "\$INIT_SYSTEM" = "systemd" ]; then
-exec \$CMD
+exec \$CMD > "\$LOG" 2>&1
 else
 nohup \$CMD > "\$LOG" 2>&1 &
 fi
