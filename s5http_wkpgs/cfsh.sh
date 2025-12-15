@@ -104,7 +104,7 @@ cnrule=$cnrule"
 if [ "\$INIT_SYSTEM" = "systemd" ]; then
 exec \$CMD
 else
-nohup \$CMD > "\$LOG" 2>&1 &
+nohup \$CMD > "$LOG" 2>&1 &
 fi
 EOF
 chmod +x "$SCRIPT"
