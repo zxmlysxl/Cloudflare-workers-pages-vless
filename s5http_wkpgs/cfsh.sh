@@ -79,6 +79,7 @@ read -p "7、分流开关（回车跳过或者输入y表示国内外分流代理
 cnrule=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
 echo
 SCRIPT="$HOME/cfs5http/cf_$port.sh"
+LOG="$HOME/cfs5http/$port.log"
 cat > "$SCRIPT" << EOF
 #!/bin/bash
 INIT_SYSTEM=\$(cat /proc/1/comm)
@@ -90,9 +91,8 @@ cf_cdnip=$cf_cdnip \
 token=$token \
 enable_ech=$enable_ech \
 cnrule=$cnrule"
-LOG="$HOME/cfs5http/$port.log"
 if [ "\$INIT_SYSTEM" = "systemd" ]; then
-exec \$CMD > "\$LOG" 2>&1
+exec \$CMD
 else
 nohup \$CMD > "\$LOG" 2>&1 &
 fi
@@ -108,6 +108,8 @@ After=network.target
 Type=simple
 ExecStart=/bin/bash $SCRIPT
 Restart=always
+StandardOutput=append:$LOG
+StandardError=append:$LOG
 [Install]
 WantedBy=multi-user.target
 EOF
