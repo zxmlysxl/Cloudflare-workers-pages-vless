@@ -152,7 +152,7 @@ showmenu
 echo
 read -p "选择要删除的端口节点（输入端口即可）:" port
 delsystem "$port"
-sed -i "\|cf_$port.sh|d" "$RCLOCAL"
+[ -f "$RCLOCAL" ] && sed -i "\|cf_$port.sh|d" "$RCLOCAL"
 pid=$(lsof -t -i :$port)
 kill -9 $pid >/dev/null 2>&1
 rm -rf "$HOME/cfs5http/$port.log" "$HOME/cfs5http/cf_$port.sh"
@@ -162,12 +162,11 @@ showmenu
 echo
 read -p "确认卸载所有节点？(y/n): " menu
 if [ "$menu" != "y" ]; then
-echo "已取消操作"
-return
+echo "已取消操作" && exit
 fi
 echo "$ports" | while IFS= read -r port; do
 delsystem "$port"
-sed -i "\|cf_$port.sh|d" "$RCLOCAL"
+[ -f "$RCLOCAL" ] && sed -i "\|cf_$port.sh|d" "$RCLOCAL"
 done
 ps | grep '[c]fwp' | awk '{print $1}' | xargs -r kill -9
 rm -rf "$HOME/cfs5http" cfsh.sh
