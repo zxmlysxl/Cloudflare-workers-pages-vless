@@ -153,13 +153,9 @@ echo
 read -p "选择要删除的端口节点（输入端口即可）:" port
 delsystem "$port"
 pid=$(lsof -t -i :$port)
-if [ -n "$pid" ]; then
 kill -9 $pid >/dev/null 2>&1
-echo "端口 $port 的进程已被终止"
-else
-echo "端口 $port 没有占用进程"
-fi
 rm -rf "$HOME/cfs5http/$port.log" "$HOME/cfs5http/cf_$port.sh"
+echo "端口 $port 的进程已被终止"
 elif [ "$menu" = "4" ]; then
 showmenu
 echo
