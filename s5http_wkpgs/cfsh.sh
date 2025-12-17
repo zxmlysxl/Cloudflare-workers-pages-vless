@@ -184,7 +184,7 @@ echo "$ports" | while IFS= read -r port; do
 delsystem "$port"
 done
 ps | grep '[c]fwp' | awk '{print $1}' | xargs -r kill -9
-rm -rf "$HOME/cfs5http" cfsh.sh
+rm -rf "$HOME/cfs5http" cfsh.sh china_ipv4.txt china_ipv6.txt
 echo "所有节点已卸载完成"
 else
 exit
