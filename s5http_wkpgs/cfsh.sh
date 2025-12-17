@@ -72,25 +72,28 @@ curl -L -o "$HOME/cfs5http/cfwp" -# --retry 2 --insecure https://raw.githubuserc
 chmod +x "$HOME/cfs5http/cfwp"
 fi
 echo
-read -p "1、客户端本地端口设置（回车默认：30000）:" menu
-port="${menu:-30000}"
-echo
-read -p "2、CF workers/pages/自定义的域名设置（格式为：域名:443系端口或者80系端口）:" menu
+read -p "1、CF workers/pages/自定义的域名设置（格式为：域名:443系端口或者80系端口）:" menu
 cf_domain="$menu"
 echo
-read -p "3、客户端地址优选IP/域名（回车默认：yg1.ygkkk.dpdns.org）:" menu
-cf_cdnip="${menu:-yg1.ygkkk.dpdns.org}"
-echo
-read -p "4、密钥设置（回车默认：不设密钥）:" menu
+read -p "2、密钥设置（回车默认：不设密钥）:" menu
 token="${menu:-}"
 echo
-read -p "5、DoH服务器设置（回车默认：dns.alidns.com/dns-query）:" menu
+read -p "3、客户端本地端口设置（回车默认：30000）:" menu
+port="${menu:-30000}"
+echo
+read -p "4、客户端地址优选IP/域名（回车默认：yg1.ygkkk.dpdns.org）:" menu
+cf_cdnip="${menu:-yg1.ygkkk.dpdns.org}"
+echo
+read -p "5、ProxyIP设置（回车默认：使用服务端ProxyIP）:" menu
+pyip="${menu:-}"
+echo
+read -p "6、DoH服务器设置（回车默认：dns.alidns.com/dns-query）:" menu
 dns="${menu:-dns.alidns.com/dns-query}"
 echo
-read -p "6、ECH开关（y=开启, n=关闭, 回车跳过: 开启）:" menu
+read -p "7、ECH开关（y=开启, n=关闭, 回车跳过：开启）:" menu
 enable_ech=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
 echo
-read -p "7、分流开关（y=国内外分流代理, n=全局代理, 回车默认: 国内外分流代理）:" menu
+read -p "8、分流开关（y=国内外分流代理, n=全局代理, 回车默认: 国内外分流代理）:" menu
 cnrule=$([ -z "$menu" ] || [ "$menu" = y ] && echo y || echo n)
 echo
 SCRIPT="$HOME/cfs5http/cf_$port.sh"
@@ -105,7 +108,8 @@ cf_domain=$cf_domain \
 cf_cdnip=$cf_cdnip \
 token=$token \
 enable_ech=$enable_ech \
-cnrule=$cnrule"
+cnrule=$cnrule \
+pyip=$pyip"
 if [ "\$INIT_SYSTEM" = "systemd" ]; then
 exec \$CMD > $LOG 2>&1
 else
