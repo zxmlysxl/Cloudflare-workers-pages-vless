@@ -107,7 +107,7 @@ token=$token \
 enable_ech=$enable_ech \
 cnrule=$cnrule"
 if [ "\$INIT_SYSTEM" = "systemd" ]; then
-exec \$CMD
+exec \$CMD > $LOG 2>&1
 else
 nohup \$CMD > "$LOG" 2>&1 &
 fi
@@ -120,7 +120,7 @@ Description=CF $port Service
 After=network.target
 [Service]
 Type=simple
-ExecStart=/bin/bash $SCRIPT
+ExecStart=/bin/bash -c $SCRIPT
 Restart=always
 RestartSec=5
 [Install]
@@ -152,9 +152,7 @@ echo "可将 /bin/bash $SCRIPT 手动设置开机自启"
 fi
 sleep 5 && echo "安装完毕，Socks5/Http节点已在运行中，可运行快捷方式 bash cfsh.sh 进入菜单选择2，查看节点配置信息及日志" 
 echo
-if [ "$INIT_SYSTEM" = "procd" ]; then
 until grep -q '服务端域名与端口\|客户端地址与端口\|运行中的优选IP' "$HOME/cfs5http/$port.log"; do sleep 1; done; head -n 16 "$HOME/cfs5http/$port.log" | grep '服务端域名与端口\|客户端地址与端口\|运行中的优选IP'
-fi
 echo
 elif [ "$menu" = "2" ]; then
 showmenu
