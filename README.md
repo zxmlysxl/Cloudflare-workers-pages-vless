@@ -2,13 +2,11 @@
 ### 支持基于Workers域名、Pages域名、自定义域名
 ### 可选 ECH-TLS、普通TLS、无TLS 三种代理模式，应对各种阻断封杀
 
-脚本推荐本地软路由等平台使用，脚本快捷方式：bash cfsh.sh
+#### 以下脚本或Docker镜像：```ygkkk/cfsh```，建议在软路由等本地平台使用，脚本快捷方式：bash cfsh.sh
 
 ```
 curl -sSL https://raw.githubusercontent.com/yonggekkk/Cloudflare_vless_trojan/main/s5http_wkpgs/cfsh.sh -o cfsh.sh && chmod +x cfsh.sh && bash cfsh.sh
 ```
-
-### Docker镜像：```ygkkk/cfsh```
 
 | 变量作用 | 变量名称| 变量值要求| 变量默认值| 变量要求|
 | :--- | :--- | :--- | :--- | :--- |
