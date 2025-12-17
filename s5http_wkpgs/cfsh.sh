@@ -14,7 +14,6 @@ echo "当前架构为 $arch，暂不支持" && exit
 ;;
 esac
 INIT_SYSTEM=$(cat /proc/1/comm 2>/dev/null)
-RCLOCAL="/etc/rc.local"
 showports(){
 if [ "$INIT_SYSTEM" = "systemd" ]; then
 ports=$(ps aux | grep "$HOME/cfs5http/cfwp" 2>/dev/null | grep -v grep | sed -n 's/.*client_ip=:\([0-9]\+\).*/\1/p')
@@ -25,7 +24,7 @@ fi
 showmenu(){
 showports
 if [ -n "$ports" ]; then
-echo "已安装节点端口："
+echo "已在运行的节点端口："
 echo "$ports" | while IFS= read -r port; do
 echo "  - $port"
 done
@@ -35,11 +34,17 @@ fi
 }
 delsystem(){
 local port=$1
-local service_name="cf_${port}.service"
-systemctl stop "$service_name" >/dev/null 2>&1
-systemctl disable "$service_name" >/dev/null 2>&1
-rm -f "/etc/systemd/system/$service_name"
+if [ "$INIT_SYSTEM" = "systemd" ]; then
+systemctl stop "cf_${port}.service" >/dev/null 2>&1
+systemctl disable "cf_${port}.service" >/dev/null 2>&1
+rm -f "/etc/systemd/system/cf_${port}.service"
 systemctl daemon-reload >/dev/null 2>&1
+else
+/etc/init.d/cf_$port stop >/dev/null 2>&1
+/etc/init.d/cf_$port disable >/dev/null 2>&1
+rm -f /etc/init.d/cf_$port
+killall -9 cf_$port >/dev/null 2>&1
+fi
 }
 echo "================================================================"
 echo "甬哥Github项目 ：github.com/yonggekkk"
@@ -125,8 +130,22 @@ systemctl daemon-reload >/dev/null 2>&1
 systemctl start "cf_$port.service" >/dev/null 2>&1
 systemctl enable "cf_$port.service" >/dev/null 2>&1
 elif [ "$INIT_SYSTEM" = "procd" ]; then
-[ ! -f "$RCLOCAL" ] && echo -e "#!/bin/sh\nexit 0" > "$RCLOCAL"; grep -q "$SCRIPT" "$RCLOCAL" || (grep -q "^exit 0" "$RCLOCAL" && sed -i "/^exit 0/i /bin/bash $SCRIPT" "$RCLOCAL" || echo "/bin/bash $SCRIPT" >> "$RCLOCAL"); tail -n1 "$RCLOCAL" | grep -q "^exit 0" || echo "exit 0" >> "$RCLOCAL"
-bash "$SCRIPT"
+cat > "/etc/init.d/cf_$port" << EOF
+#!/bin/sh /etc/rc.common
+START=99
+STOP=10
+USE_PROCD=1
+SCRIPT="$HOME/cfs5http/cf_$port.sh"
+start_service() {
+procd_open_instance
+procd_set_param command /bin/sh -c "sleep 10 && /bin/bash \"$SCRIPT\""
+procd_set_param respawn
+procd_close_instance
+}
+EOF
+chmod +x "/etc/init.d/cf_$port"
+/etc/init.d/cf_$port start >/dev/null 2>&1
+/etc/init.d/cf_$port enable >/dev/null 2>&1
 else
 bash "$SCRIPT"
 echo "可将 /bin/bash $SCRIPT 手动设置开机自启"
@@ -152,7 +171,6 @@ showmenu
 echo
 read -p "选择要删除的端口节点（输入端口即可）:" port
 delsystem "$port"
-[ -f "$RCLOCAL" ] && sed -i "\|cf_$port.sh|d" "$RCLOCAL"
 pid=$(lsof -t -i :$port)
 kill -9 $pid >/dev/null 2>&1
 rm -rf "$HOME/cfs5http/$port.log" "$HOME/cfs5http/cf_$port.sh"
@@ -166,7 +184,6 @@ echo "已取消操作" && exit
 fi
 echo "$ports" | while IFS= read -r port; do
 delsystem "$port"
-[ -f "$RCLOCAL" ] && sed -i "\|cf_$port.sh|d" "$RCLOCAL"
 done
 ps | grep '[c]fwp' | awk '{print $1}' | xargs -r kill -9
 rm -rf "$HOME/cfs5http" cfsh.sh
