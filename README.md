@@ -13,13 +13,18 @@ curl -sSL https://raw.githubusercontent.com/yonggekkk/Cloudflare_vless_trojan/ma
 | 变量作用 | 变量名称| 变量值要求| 变量默认值| 变量要求|
 | :--- | :--- | :--- | :--- | :--- |
 | 1、建立CF服务端 | cf_domain | 域名:443系端口或者80系端口 | 无，必须CF处获取workers/pages/自定义的域名 | 必填 |
-| 2、CF服务端密钥 | token | 字母数字 | 无密钥，如服务端有密钥，必须保持一致 | 可选 |
+| 2、CF服务端密钥 | token | 与服务端一样的字母数字 | 无密钥 | 可选 |
 | 3、客户端本地IP端口 | client_ip | 10000-65000之间 | 30000 | 可选 |
 | 4、指定优选IP/域名 | cf_cdnip | CF的优选IP或者优选域名 | yg1.ygkkk.dpdns.org | 可选 |
 | 5、指定ProxyIP | pyip | ipv4或[ipv6]或域名 | 使用服务端ProxyIP | 可选 |
 | 6、DNS指定DoH | dns | DNS的DoH格式 | dns.alidns.com/dns-query | 可选 |
 | 7、ECH开关 | enable_ech | y=开启，n=关闭 | 开启ECH | 可选 |
 | 8、分流开关 | cnrule | y=国内外分流代理，n=全局代理 | 国内外分流代理 | 可选 |
+
+------------------------------------------------------------
+
+<img width="1182" height="517" alt="4aa4bfbde593a8461cf68d9739ea81d0" src="https://github.com/user-attachments/assets/fa999b0e-84cf-4c25-bc24-bc8b08cffe19" />
+
 
 ------------------------------------------------------------
 
