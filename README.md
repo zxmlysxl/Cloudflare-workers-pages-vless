@@ -27,6 +27,8 @@ CF443系端口：443(推荐)、2053、2083、2087、2096、8443
 
 ProxyIP是否有效影响着能否访问CF网站，比如CF官网、X推特、ChatGPT等网站
 
+视频教程：[CF Socks5/Http免费代理教程：揭秘ECH Workers利弊；支持三种代理模式多端口复用，支持客户端自定义proxyip](https://youtu.be/Y_SHcD3prt8)
+
 ------------------------------------------------------------
 
 <img width="1182" height="517" alt="e5dfbfd7c9e6f15d4bd1c8409eecdffc" src="https://github.com/user-attachments/assets/ac0bcef0-54f9-4290-8c04-f84bbbe1cdf8" />
