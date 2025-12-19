@@ -19,6 +19,10 @@ curl -sSL https://raw.githubusercontent.com/yonggekkk/Cloudflare_vless_trojan/ma
 | 7、ECH开关 | enable_ech | y=开启，n=关闭 | 开启ECH | 可选 |
 | 8、分流开关 | cnrule | y=国内外分流代理，n=全局代理 | 国内外分流代理 | 可选 |
 
+CF80系端口：80(推荐)、8080、8880、2052、2082、2086、2095
+
+CF443系端口：443(推荐)、2053、2083、2087、2096、8443
+
 ------------------------------------------------------------
 
 <img width="1182" height="517" alt="e5dfbfd7c9e6f15d4bd1c8409eecdffc" src="https://github.com/user-attachments/assets/ac0bcef0-54f9-4290-8c04-f84bbbe1cdf8" />
