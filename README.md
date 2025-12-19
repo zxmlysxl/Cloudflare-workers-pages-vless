@@ -21,8 +21,7 @@ curl -sSL https://raw.githubusercontent.com/yonggekkk/Cloudflare_vless_trojan/ma
 
 ------------------------------------------------------------
 
-<img width="1182" height="517" alt="4aa4bfbde593a8461cf68d9739ea81d0" src="https://github.com/user-attachments/assets/fa999b0e-84cf-4c25-bc24-bc8b08cffe19" />
-
+<img width="1182" height="517" alt="e5dfbfd7c9e6f15d4bd1c8409eecdffc" src="https://github.com/user-attachments/assets/ac0bcef0-54f9-4290-8c04-f84bbbe1cdf8" />
 
 ------------------------------------------------------------
 
