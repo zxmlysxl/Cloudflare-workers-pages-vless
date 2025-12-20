@@ -21,7 +21,7 @@ curl -sSL https://raw.githubusercontent.com/yonggekkk/Cloudflare_vless_trojan/ma
 
 | 三模式变量设置要点 | ECH-TLS | 普通TLS| 无TLS|
 | :--- | :--- | :--- | :--- |
-| 1、cf_domain（CF服务端域名:端口） | workers/pages/自定义的域名:443系端口 | pages/自定义的域名:443系端口 | workers/自定义的域名:80系端口 | 
+| 1、cf_domain（CF服务端域名:端口） | workers/pages/自定义的域名:443系端口 | pages/自定义的域名:443系端口 | workers域名:80系端口 | 
 | 2、enable_ech（ECH开关） | y开启 | n关闭 | y开启/n关闭 | 
 
 注意：
