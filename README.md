@@ -30,11 +30,11 @@ CF80系端口：80(推荐)、8080、8880、2052、2082、2086、2095
 
 CF443系端口：443(推荐)、2053、2083、2087、2096、8443
 
-ProxyIP是否有效影响着能否访问CF网站，比如CF官网、X推特、ChatGPT等网站
-
 推荐非CF网站IP查询（显示CF的104.28/2a0a的IP）：https://www.whatismyip.com
 
 推荐CF网站IP查询（显示proxyip的IP）：https://ip.sb
+
+ProxyIP是否有效影响着能否访问CF网站，比如CF官网、X推特、ChatGPT等网站
 
 视频教程：[CF Socks5/Http免费代理教程：揭秘ECH Workers利弊；支持三种代理模式多端口复用，支持客户端自定义proxyip](https://youtu.be/Y_SHcD3prt8)
 
