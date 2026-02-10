@@ -12,12 +12,13 @@
 
 #### 优选完各文件夹内IP 域名后，运行此脚本，他会集合起来自动复制到剪切板并创建相对根目录下worker.env文件存放。
 
-![01](/.photos\01.webp)
+![01](.photos/01.webp)
 
 ### 2. 一键导入变量
 
 #### 在CF_Worker-变量和机密中，点击添加-点击变量名称下方黑框CTRL+V，你会看到变量批量导入进去，其他变量如果没填完点击保存版本，所有的搞完了可直接部署。
 
-![02-1](/.photos\02-1.webp)
+![02-1](.photos/02-1.webp)
 
+https://github.com/user-attachments/assets/108476a0-e157-48c6-8a0d-3e9d8ef2ef92
 
